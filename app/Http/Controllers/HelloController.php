@@ -5,31 +5,27 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Response;
-use App\MyClasses\MyService;
+use App\MyClasses\MyServiceInterface;
+use App\Facades\PowerMyService;
+use Illuminate\Support\Facades\DB;
+use App\Models\Person;
+use App\Jobs\MyJob;
 
 class HelloController extends Controller
 {
-  private $fname;
-
-  function __construct(MyService $myservice)
+ public function index(Person $person = null)
+ {
+  if($person != null)
   {
-    $myservice = app('App\MyClasses\MyService');
+    MyJob::dispatch($person);
   }
-
-  public function index(MyService $myservice, int $id = -1)
-  {
-    $myservice->setId($id);
-    $data = [
-      'msg' => $myservice->say(),
-      'data' => $myservice->alldata()
-    ];
-    return view('hello.index', $data);
-  }
-
-  public function other($msg)
-  {
-    // $data = Storage::append($this->fname) . PHP . $msg;
-    Storage::disk('public')->prepend($this->fname, $msg);
-    return redirect()->route('hello');
-  }
+  $msg = 'show people record';
+  $result = Person::all();
+  $data = [
+    'input' => '',
+    'msg' => $msg,
+    'data' => $result,
+  ];
+  return view('hello.index', $data);
+ }
 }
