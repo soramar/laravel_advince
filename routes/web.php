@@ -23,9 +23,10 @@ Route::get('/', function () {
 
 Route::middleware([HelloMiddleware::class])->group(function(){});
 
-Route::get('/hello/{id}', [HelloController::class, 'index'])->name('hello');
+Route::get('/hello/{id}', [HelloController::class, 'index']);
 Route::post('/hello', [HelloController::class, 'index']);
 Route::get('/hello/{msg}', [HelloController::class, 'other']);
+Route::get('hello/{person}', [HelloController::class, 'index']);
 
 Route::namespace('Sample')->group(function(){
     Route::get('/sample', [SampleController::class, 'index'])->name('sample');

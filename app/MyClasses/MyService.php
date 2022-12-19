@@ -1,17 +1,14 @@
 <?php
 namespace App\MyClasses;
 
-class MyService
+class MyService implements MyServiceInterface
 {
-  private $serial;
   private $id = -1;
   private $msg = 'no id...';
   private $data = ['hello_id', 'welcome_id', 'bye_id'];
 
   public function __construct()
   {
-    $this->serial = rand();
-    echo "[" . $this->serial . "]";
   }
 
   public function setId($id)
@@ -19,7 +16,7 @@ class MyService
     $this->id = $id;
     if($id >= 0 && $id < count($this->data))
     {
-     
+
       $this->msg = 'select id: ' . $id . ', data: "' . $this->data[$id] . '"' ;
     }
   }
@@ -34,7 +31,7 @@ class MyService
     return $this->data[$id];
   }
 
-  public function alldata()
+  public function allData()
   {
     return $this->data;
   }
